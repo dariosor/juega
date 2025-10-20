@@ -26,11 +26,11 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            z-index:-1;
+            z-index: 9999; /* 🔥 Muy importante: ahora está por encima */
         }
 
         #intro video {
-            width: 100%; /* Ocupa todo el ancho del contenedor */
+            width: 100%;
             max-width: 800px;
             border-radius: 0px;
         }
@@ -44,13 +44,14 @@
             cursor: pointer;
             background-color: #4CAF50;
             color: white;
+            display: none; /* 🔥 Oculto hasta que termine el video */
         }
 
         #comenzar:hover {
             background-color: #45a049;
         }
 
-        /* Contenido principal (oculto mientras dura el intro) */
+        /* Contenido principal */
         #main-content {
             display: none;
             text-align: center;
@@ -97,16 +98,19 @@
         const mainContent = document.getElementById('main-content');
         const videoIntro = document.getElementById('video-intro');
 
-        // Al terminar el video, muestra el botón "Comenzar"
+        // Muestra el botón cuando termina el video
         videoIntro.onended = () => {
             comenzarBtn.style.display = 'block';
         };
 
-        // Cuando se hace clic en "Comenzar"
+        // Si el usuario quiere saltar antes del final (opcional)
+        videoIntro.addEventListener('click', () => {
+            comenzarBtn.style.display = 'block';
+        });
+
+        // Al hacer clic en "Comenzar"
         comenzarBtn.addEventListener('click', () => {
-            // Oculta la cinemática
             intro.style.display = 'none';
-            // Muestra el contenido principal
             mainContent.style.display = 'block';
         });
     </script>
