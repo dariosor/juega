@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Crucigrama | Aprende Jugando</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="crucigrama.js"></script>
+</head>
+<body>
+  <header>
+    <h1>🧠 Crucigrama Educativo</h1>
+    <nav>
+      <ul class="menu">
+        <li><a href="juegos.html">⬅ Volver a Juegos</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="contenido-juego">
+    <h2>¡Completa el crucigrama según la materia!</h2>
+
+    <div class="selector-materia">
+      <label for="materia">Elige una materia:</label>
+      <select id="materia">
+        <option value="">-- Selecciona --</option>
+        <option value="lenguaje">Lenguaje</option>
+        <option value="ingles">Inglés</option>
+        <option value="naturales">C. Naturales</option>
+        <option value="sociales">C. Sociales</option>
+      </select>
+      <button id="iniciar">Generar Crucigrama</button>
+    </div>
+
+    <div id="crucigrama" class="oculto">
+      <table id="tablaCrucigrama"></table>
+      <p id="mensaje"></p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Aprende Jugando</p>
+  </footer>
+</body>
+</html>

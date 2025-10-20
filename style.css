@@ -1,0 +1,155 @@
+/* ===============================
+   ====== ESTILOS GENERALES ======
+   =============================== */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+/* ===============================
+   ====== BOTONES ======
+   =============================== */
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* ===============================
+   ====== ÁREA DE JUEGOS ======
+   =============================== */
+#game-area {
+    margin-top: 20px;
+}
+
+/* ===============================
+   ====== SECCIONES ======
+   =============================== */
+.seccion {
+    margin: 30px 0;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #e6f2ff;
+}
+
+/* Contenedor flexible para texto, imagen o video */
+.contenido {
+    display: flex; /* horizontal por defecto */
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px; /* Espacio entre texto y media */
+}
+
+/* Para cambiar orientación a vertical */
+.contenido.vertical {
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ===============================
+   ====== TEXTO ======
+   =============================== */
+.titulo {
+    font-size: 26px; /* Tamaño del título */
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.texto {
+    font-size: 18px; /* Tamaño del texto */
+    line-height: 1.5;
+    flex: 1; /* Ocupa espacio flexible */
+}
+
+/* ===============================
+   ====== IMÁGENES Y VIDEOS ======
+   =============================== */
+.media {
+    max-width: 400px; /* Tamaño máximo por defecto */
+    width: 100%; /* Se adapta al contenedor */
+    border-radius: 10px;
+}
+
+.video {
+    max-width: 500px;
+}
+
+/* ===============================
+   ====== CENTRADO Y FORMULARIO ======
+   =============================== */
+.centrado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+form {
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input, textarea {
+    width: 90%;
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* ===============================
+   ====== MAPA ======
+   =============================== */
+.mapa iframe {
+    max-width: 100%;
+    border-radius: 10px;
+}

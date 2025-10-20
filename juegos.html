@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juegos - Aprende Jugando</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Juegos</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="inicio.html">Inicio</a></li>
+                <li><a href="conocenos.html">Conócenos</a></li>
+                <li><a href="contactenos.html">Contáctenos</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Elige un modo de juego</h2>
+        <button onclick="startGame('normal')">Juego Normal</button>
+        <button onclick="startGame('timer')">Juego con Tiempo</button>
+
+        <div id="game-area">
+            <h3>Puntos: <span id="score">0</span></h3>
+            <div id="timer-container" style="display:none;">
+                Tiempo restante: <span id="timer">30</span> segundos
+            </div>
+            <p id="game-message">¡Comienza a jugar!</p>
+            <button onclick="increaseScore()">Ganar Punto</button>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprende Jugando</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ====== ESTILOS CINEMÁTICA ====== */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Pantalla de introducción */
+        #intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index:-1;
+        }
+
+        #intro video {
+            width: 100%; /* Ocupa todo el ancho del contenedor */
+            max-width: 800px;
+            border-radius: 0px;
+        }
+
+        #comenzar {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #comenzar:hover {
+            background-color: #45a049;
+        }
+
+        /* Contenido principal (oculto mientras dura el intro) */
+        #main-content {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- CINEMÁTICA DE INTRO -->
+    <div id="intro">
+        <video id="video-intro" autoplay muted>
+            <source src="intro.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de video.
+        </video>
+        <button id="comenzar">Comenzar</button>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div id="main-content">
+        <header>
+            <h1>Aprende Jugando</h1>
+            <nav>
+                <ul>
+                    <li><a href="inicio.html">Inicio</a></li>
+                    <li><a href="conocenos.html">Conócenos</a></li>
+                    <li><a href="contactenos.html">Contáctenos</a></li>
+                    <li><a href="juegos.html">Juegos</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <h2>¡Bienvenido a Aprende Jugando!</h2>
+            <p>Aprende y diviértete con nuestros juegos educativos.</p>
+        </main>
+        <footer>
+            <p>&copy; 2025 Aprende Jugando</p>
+        </footer>
+    </div>
+
+    <!-- SCRIPT PARA CONTROLAR INTRO -->
+    <script>
+        const intro = document.getElementById('intro');
+        const comenzarBtn = document.getElementById('comenzar');
+        const mainContent = document.getElementById('main-content');
+        const videoIntro = document.getElementById('video-intro');
+
+        // Al terminar el video, muestra el botón "Comenzar"
+        videoIntro.onended = () => {
+            comenzarBtn.style.display = 'block';
+        };
+
+        // Cuando se hace clic en "Comenzar"
+        comenzarBtn.addEventListener('click', () => {
+            // Oculta la cinemática
+            intro.style.display = 'none';
+            // Muestra el contenido principal
+            mainContent.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
