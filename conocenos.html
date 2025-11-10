@@ -1,71 +1,148 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conócenos - Aprende Jugando</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conócenos - Aprende Jugando</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #1a0033;
+      color: #fff;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #2b0047;
+      padding: 10px 20px;
+    }
+    header .logo {
+      height: 50px;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+    }
+    nav a {
+      color: #ffea00;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a.activo {
+      text-decoration: underline;
+    }
+
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      gap: 40px;
+    }
+
+    .info {
+      flex: 1 1 550px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #b26ffb;
+    }
+
+    .info h1, .info h2 {
+      color: #ffea00;
+      text-shadow: 0 0 8px #ffea00;
+      border-bottom: 2px solid #ffea00;
+      padding-bottom: 5px;
+    }
+
+    .info p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #ffffff;
+      text-align: justify;
+    }
+
+    .video {
+      flex: 1 1 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .video video {
+      width: 100%;
+      max-width: 450px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #b26ffb;
+    }
+
+    footer {
+      text-align: center;
+      background: #2b0047;
+      color: #ffea00;
+      padding: 15px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        flex-direction: column;
+        align-items: center;
+      }
+      .info, .video {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Conócenos</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="inicio.html">Inicio</a></li>
-                <li><a href="contactenos.html">Contáctenos</a></li>
-                <li><a href="juegos.html">Juegos</a></li>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <img src="logo.png" alt="Logo Aprende Jugando" class="logo">
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="conocenos.html" class="activo">Conócenos</a></li>
+        <li><a href="juegos.html">Juegos</a></li>
+        <li><a href="contactenos.html">Contáctenos</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <main>
-        <!-- Sección ¿Quiénes somos? -->
-        <section class="seccion" id="quienes-somos">
-            <h2 class="titulo">¿Quiénes somos?</h2>
-            <div class="contenido">
-                <p class="texto">Somos un proyecto educativo que busca enseñar de manera divertida y creativa, combinando el aprendizaje con el juego interactivo.</p>
-                <img class="media imagen" src="img/quienes-somos.jpg" alt="Equipo Aprende Jugando">
-                <!-- Video opcional -->
-                <!--
-                <video class="media video" controls>
-                    <source src="videos/quienes-somos.mp4" type="video/mp4">
-                    Tu navegador no soporta la reproducción de video.
-                </video>
-                -->
-            </div>
-        </section>
+  <main>
+    <section class="info">
 
-        <!-- Sección Objetivo -->
-        <section class="seccion" id="objetivo">
-            <h2 class="titulo">Objetivo</h2>
-            <div class="contenido">
-                <p class="texto">Fomentar el aprendizaje mediante juegos educativos, ayudando a los estudiantes a desarrollar habilidades cognitivas y creativas mientras se divierten.</p>
-                <img class="media imagen" src="img/objetivo.jpg" alt="Objetivo del proyecto">
-            </div>
-        </section>
+      <h2>Visión</h2>
+      <p>
+        Brindar a los estudiantes de nivel primario una forma divertida y moderna de reforzar sus conocimientos en las materias de Lenguaje, Inglés, Ciencias Sociales y Ciencias Naturales mediante juegos interactivos como el ahorcado, la sopa de letras, el crucigrama y las adivinanzas, promoviendo el aprendizaje activo y el desarrollo del pensamiento lógico.
+      </p>
 
-        <!-- Sección Visión -->
-        <section class="seccion" id="vision">
-            <h2 class="titulo">Visión</h2>
-            <div class="contenido">
-                <p class="texto">Ser reconocidos como una plataforma educativa innovadora que combina la enseñanza con la diversión, impactando positivamente en el aprendizaje de niños y jóvenes.</p>
-                <img class="media imagen" src="img/vision.jpg" alt="Visión del proyecto">
-            </div>
-        </section>
+      <h2>Misión</h2>
+      <p>
+        Ser una plataforma educativa reconocida por transformar la forma en que los niños aprenden, integrando la diversión y la tecnología para mantener viva la curiosidad y el gusto por el conocimiento, reemplazando el aprendizaje pasivo por experiencias interactivas y entretenidas.
+      </p>
 
-        <!-- Sección Misión -->
-        <section class="seccion" id="mision">
-            <h2 class="titulo">Misión</h2>
-            <div class="contenido">
-                <p class="texto">Desarrollar contenidos educativos interactivos de calidad que motiven a los estudiantes a aprender jugando y a explorar nuevas formas de conocimiento.</p>
-                <img class="media imagen" src="img/mision.jpg" alt="Misión del proyecto">
-            </div>
-        </section>
-    </main>
+      <h2>Objetivo</h2>
+      <p>
+        Ofrecer un espacio digital accesible y atractivo donde los niños de nivel primario puedan aprender jugando, combinando herramientas tecnológicas con dinámicas educativas clásicas inspiradas en los juegos de los periódicos y libros, fomentando así la lectura, la memoria y el razonamiento de una manera adaptada a la era digital.
+      </p>
+    </section>
 
-    <footer>
-        <p>&copy; 2025 Aprende Jugando</p>
-    </footer>
+    <aside class="video">
+      <!-- Aquí puedes colocar tu video institucional -->
+      <video src="inca.mp4" controls poster="img/conocenos-poster.png"></video>
+    </aside>
+  </main>
+
+  <footer>
+    <p>© 2025 Aprende Jugando | Todos los derechos reservados</p>
+  </footer>
 </body>
 </html>

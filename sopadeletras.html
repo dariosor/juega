@@ -1,31 +1,360 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Sopa de Letras | Aprende Jugando</title>
-  <link rel="stylesheet" href="style.css">
-  <script defer src="script.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sopa de Letras - Aprende Jugando</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    /* 🎯 Centrar la cuadrícula */
+    #gridWrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 25px;
+      overflow: auto;
+    }
+
+    .grid {
+      display: grid;
+      gap: 4px;
+      margin: auto;
+      user-select: none;
+      justify-content: center;
+    }
+
+    .cell {
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cell:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: scale(1.05);
+    }
+
+    .cell.selected {
+      outline: 3px solid #b26ffb;
+    }
+
+    .cell.found {
+      background: linear-gradient(90deg, #b26ffb, #ffea00);
+      color: #000;
+      font-weight: bold;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .size-control {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #b26ffb;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 2px solid #b26ffb;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      background: #b26ffb;
+      color: #000;
+      box-shadow: 0 0 15px #b26ffb;
+    }
+
+    ul#palabras-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    ul#palabras-list li {
+      display: inline-block;
+      margin: 4px 8px;
+      font-weight: bold;
+      color: #ffea00;
+      text-shadow: 0 0 8px #ffea00;
+    }
+
+    #msg {
+      margin-top: 14px;
+      font-weight: bold;
+      color: #ffea00;
+      text-shadow: 0 0 8px #ffea00;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>🔠 Sopa de Letras</h1>
+    <img src="logo.png" alt="Logo" class="logo">
     <nav>
-      <ul class="menu">
-        <li><a href="juegos.html">⬅ Volver a Juegos</a></li>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="conocenos.html">Conócenos</a></li>
+        <li><a href="juegos.html" class="activo">Juegos</a></li>
+        <li><a href="contactenos.html">Contáctenos</a></li>
       </ul>
     </nav>
   </header>
 
-  <main>
-    <section class="contenido-juego">
-      <h2>Encuentra las palabras escondidas</h2>
-      <p>Pronto podrás jugar aquí la Sopa de Letras educativa ✨</p>
-    </section>
+  <main class="container">
+    <h1>Sopa de Letras</h1>
+    <div class="info">
+      Materia: <span id="info-materia"></span> | 
+      Modo: <span id="info-modo"></span>
+    </div>
+
+    <div class="controls">
+      <div class="size-control">
+        <label>Tamaño letra:</label>
+        <input id="fontSize" type="range" min="14" max="36" value="20">
+        <span id="fontVal">20px</span>
+      </div>
+      <button class="btn" id="reiniciar">Reiniciar</button>
+      <button class="btn" id="volver" onclick="location.href='juegos.html'">Volver</button>
+    </div>
+
+    <div id="gridWrap">
+      <!-- Aquí irá la cuadrícula generada -->
+    </div>
+
+    <div style="margin-top:16px">
+      <strong>Palabras a encontrar:</strong>
+      <ul id="palabras-list"></ul>
+    </div>
+
+    <div id="msg"></div>
   </main>
 
-  <footer>
-    <p>© 2025 Aprende Jugando</p>
-  </footer>
+  <footer><p>© 2025 Aprende Jugando</p></footer>
+
+  <script>
+    // ---------- puntos y config ----------
+    function sumarPuntos(cantidad){
+      let pts = parseInt(localStorage.getItem('puntos') || '0',10);
+      pts += cantidad;
+      localStorage.setItem('puntos', pts);
+    }
+
+    const palabrasPorMateria = {
+      lenguaje: ['NARRAR','SILABA','FONEMA','ORACION','SINTAX','VERBO','ADJETIVO','SUSTANTIVO'],
+      ingles: ['APPLE','BOOK','SCHOOL','GREEN','HOUSE','FRIEND','NUMBER','ANIMAL'],
+      sociales: ['HISTORIA','MAPA','BANDERA','REGION','CIUDAD','PROVINCIA','GOBIERNO','PUEBLO'],
+      naturales: ['AGUA','PLANTA','ANIMAL','CLIMA','RESPIRA','ATOMO','ECOSIST','ENERGIA']
+    };
+
+    let gridSize = 12;
+    let grid = [];
+    let placedWords = [];
+    let found = new Set();
+    let selecting = false;
+    let selection = [];
+    let startCell = null;
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const materia = localStorage.getItem('materia') || 'lenguaje';
+      const modo = localStorage.getItem('modo') || 'sin-tiempo';
+      document.getElementById('info-materia').textContent = materia;
+      document.getElementById('info-modo').textContent = modo === 'con-tiempo' ? 'Con tiempo' : 'Sin tiempo';
+
+      document.getElementById('fontSize').addEventListener('input', e=>{
+        const val = e.target.value;
+        document.getElementById('fontVal').textContent = val + 'px';
+        applyFontSize(val);
+      });
+
+      document.getElementById('reiniciar').addEventListener('click', ()=> init(materia));
+      init(materia);
+    });
+
+    function init(materia){
+      grid = Array.from({length:gridSize}, ()=> Array(gridSize).fill(''));
+      placedWords = [];
+      found = new Set();
+      buildGrid(materia);
+    }
+
+    function buildGrid(materia){
+      const wrap = document.getElementById('gridWrap');
+      wrap.innerHTML = '';
+      const lista = palabrasPorMateria[materia]?.slice(0,8) || palabrasPorMateria.lenguaje.slice(0,8);
+
+      for(let w of lista){
+        placeWord(w.toUpperCase());
+      }
+
+      const letters = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ';
+      for(let r=0;r<gridSize;r++){
+        for(let c=0;c<gridSize;c++){
+          if(!grid[r][c]) grid[r][c] = letters[Math.floor(Math.random()*letters.length)];
+        }
+      }
+
+      const gridEl = document.createElement('div');
+      gridEl.className = 'grid';
+      gridEl.style.gridTemplateColumns = `repeat(${gridSize}, 42px)`;
+
+      for(let r=0;r<gridSize;r++){
+        for(let c=0;c<gridSize;c++){
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          cell.dataset.r = r; cell.dataset.c = c;
+          cell.textContent = grid[r][c];
+          cell.addEventListener('mousedown', startSelect);
+          cell.addEventListener('mouseover', overCell);
+          cell.addEventListener('mouseup', endSelect);
+          gridEl.appendChild(cell);
+        }
+      }
+      wrap.appendChild(gridEl);
+
+      const listEl = document.getElementById('palabras-list');
+      listEl.innerHTML = '';
+      for(let w of lista){
+        const li = document.createElement('li');
+        li.textContent = w.toUpperCase();
+        li.id = 'word-'+w.toUpperCase();
+        listEl.appendChild(li);
+      }
+      document.getElementById('msg').textContent = '';
+      applyFontSize(document.getElementById('fontSize').value);
+    }
+
+    function placeWord(word){
+      const directions = [[0,1],[1,0],[0,-1],[-1,0],[1,1],[1,-1],[-1,1],[-1,-1]];
+      for(let tries=0; tries<200; tries++){
+        const dir = directions[Math.floor(Math.random()*directions.length)];
+        const r = Math.floor(Math.random()*gridSize);
+        const c = Math.floor(Math.random()*gridSize);
+        if(canPlace(word,r,c,dir[0],dir[1])){
+          for(let i=0;i<word.length;i++){
+            grid[r + i*dir[0]][c + i*dir[1]] = word[i];
+          }
+          placedWords.push({word, r, c, dr:dir[0], dc:dir[1]});
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function canPlace(word,r,c,dr,dc){
+      for(let i=0;i<word.length;i++){
+        const rr=r+i*dr, cc=c+i*dc;
+        if(rr<0 || rr>=gridSize || cc<0 || cc>=gridSize) return false;
+        const cell = grid[rr][cc];
+        if(cell && cell !== '' && cell !== word[i]) return false;
+      }
+      return true;
+    }
+
+    function startSelect(e){
+      selecting = true;
+      selection = [];
+      startCell = e.currentTarget;
+      addToSelection(startCell);
+    }
+
+    function overCell(e){
+      if(!selecting) return;
+      addToSelection(e.currentTarget);
+    }
+
+    function endSelect(){
+      selecting = false;
+      checkSelection();
+      selection.forEach(c => c.classList.remove('selected'));
+      selection = [];
+    }
+
+    function addToSelection(cell){
+      if(!cell) return;
+      if(selection.length && selection[selection.length-1] === cell) return;
+      selection.push(cell);
+      cell.classList.add('selected');
+    }
+
+    function checkSelection(){
+      const letters = selection.map(c => c.textContent).join('');
+      const lettersRev = selection.map(c=>c.textContent).reverse().join('');
+      const placed = placedWords.map(p=>p.word);
+      const idx = placed.indexOf(letters) !== -1 ? placed.indexOf(letters) : placed.indexOf(lettersRev);
+      if(idx !== -1){
+        const foundWord = placedWords[idx].word;
+        markFoundSequence(selection);
+        document.getElementById('word-'+foundWord).style.textDecoration = 'line-through';
+        found.add(foundWord);
+        sumarPuntos(10);
+        const msg = document.getElementById('msg');
+        msg.textContent = '¡Correcto! +10 puntos';
+        if(found.size >= Math.min(8, placedWords.length)){
+          msg.textContent = '¡Encontraste todas! +50 pts';
+          sumarPuntos(50);
+        }
+      } else {
+        document.getElementById('msg').textContent = 'No coincide';
+      }
+    }
+
+    function markFoundSequence(seqCells){
+      seqCells.forEach(c=>{
+        c.classList.add('found');
+        c.classList.remove('selected');
+      });
+    }
+
+    function applyFontSize(px){
+      document.querySelectorAll('.cell').forEach(c => c.style.fontSize = px + 'px');
+    }
+
+    document.body.addEventListener('mouseup', ()=>{
+      if(selecting){
+        selecting = false;
+        if(selection.length) { checkSelection(); selection.forEach(c => c.classList.remove('selected')); selection = []; }
+      }
+    });
+  </script>
 </body>
 </html>
-

@@ -1,118 +1,153 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aprende Jugando</title>
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        /* ====== ESTILOS CINEMÁTICA ====== */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: Arial, sans-serif;
-        }
-
-        /* Pantalla de introducción */
-        #intro {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 9999; /* 🔥 Muy importante: ahora está por encima */
-        }
-
-        #intro video {
-            width: 100%;
-            max-width: 800px;
-            border-radius: 0px;
-        }
-
-        #comenzar {
-            margin-top: 20px;
-            padding: 15px 30px;
-            font-size: 20px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            display: none; /* 🔥 Oculto hasta que termine el video */
-        }
-
-        #comenzar:hover {
-            background-color: #45a049;
-        }
-
-        /* Contenido principal */
-        #main-content {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aprende Jugando - Inicio</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: radial-gradient(circle at center, #12003b, #000);
+      color: #fff;
+    }
+    header {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 15px 0;
+      text-align: center;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a.activo {
+      color: #00eaff;
+      text-shadow: 0 0 8px #00eaff;
+    }
+    .bienvenida {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .bienvenida h1 span {
+      color: #00eaff;
+    }
+    /* ==== TUTORIAL ==== */
+    .tutorial {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      padding: 30px 10%;
+      align-items: center;
+    }
+    .tutorial:nth-child(even) {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .tutorial h2 {
+      color: #ffea00;
+      text-align: left;
+    }
+    .tutorial p {
+      text-align: left;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+    .media {
+      text-align: center;
+    }
+    .media img, .media video {
+      width: 90%;
+      max-width: 400px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 234, 255, 0.6);
+    }
+    footer {
+      background: rgba(0,0,0,0.8);
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
-    <!-- CINEMÁTICA DE INTRO -->
-    <div id="intro">
-        <video id="video-intro" autoplay muted>
-            <source src="intro.mp4" type="video/mp4">
-            Tu navegador no soporta la reproducción de video.
-        </video>
-        <button id="comenzar">Comenzar</button>
-    </div>
+  <header>
+    <img src="logo.png" alt="Logo Aprende Jugando" class="logo" style="max-width:150px;">
+    <nav>
+      <ul>
+        <li><a href="index.html" class="activo">Inicio</a></li>
+        <li><a href="conocenos.html">Conócenos</a></li>
+        <li><a href="juegos.html">Juegos</a></li>
+        <li><a href="contactenos.html">Contáctenos</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <div id="main-content">
-        <header>
-            <h1>Aprende Jugando</h1>
-            <nav>
-                <ul>
-                    <li><a href="inicio.html">Inicio</a></li>
-                    <li><a href="conocenos.html">Conócenos</a></li>
-                    <li><a href="contactenos.html">Contáctenos</a></li>
-                    <li><a href="juegos.html">Juegos</a></li>
-                </ul>
-            </nav>
-        </header>
-        <main>
-            <h2>¡Bienvenido a Aprende Jugando!</h2>
-            <p>Aprende y diviértete con nuestros juegos educativos.</p>
-        </main>
-        <footer>
-            <p>&copy; 2025 Aprende Jugando</p>
-        </footer>
-    </div>
+  <main>
+    <section class="bienvenida">
+      <h1>🎮 ¡Bienvenido a <span>Aprende Jugando</span>!</h1>
+      <p>Descubre nuestros juegos educativos para aprender de manera divertida y visual.</p>
+    </section>
 
-    <!-- SCRIPT PARA CONTROLAR INTRO -->
-    <script>
-        const intro = document.getElementById('intro');
-        const comenzarBtn = document.getElementById('comenzar');
-        const mainContent = document.getElementById('main-content');
-        const videoIntro = document.getElementById('video-intro');
+    <!-- ==== TUTORIAL DE JUEGOS ==== -->
 
-        // Muestra el botón cuando termina el video
-        videoIntro.onended = () => {
-            comenzarBtn.style.display = 'block';
-        };
+    <section class="tutorial">
+      <div class="texto">
+        <h2>🧩 Ahorcado</h2>
+        <p>El clásico juego de adivinar palabras. Escribe letras para descubrir la palabra antes de que el muñeco se complete. 
+        Puedes jugar por materias como Lenguaje, Inglés, C. Sociales o C. Naturales y ganar puntos según tu rendimiento.</p>
+      </div>
+      <div class="media">
+        <!-- Aquí puedes reemplazar la imagen o video -->
+        <img src="aor.png" alt="Ahorcado">
+      </div>
+    </section>
 
-        // Si el usuario quiere saltar antes del final (opcional)
-        videoIntro.addEventListener('click', () => {
-            comenzarBtn.style.display = 'block';
-        });
+    <section class="tutorial">
+      <div class="texto">
+        <h2>🔍 Sopa de Letras</h2>
+        <p>Encuentra 8 palabras ocultas dentro de una cuadrícula. Usa el mouse para arrastrar sobre las letras y marcar las palabras correctas. 
+        Puedes ajustar el tamaño de letra y elegir entre diferentes materias educativas.</p>
+      </div>
+      <div class="media">
+        <img src="sopa.png" alt="Sopa de Letras">
+      </div>
+    </section>
 
-        // Al hacer clic en "Comenzar"
-        comenzarBtn.addEventListener('click', () => {
-            intro.style.display = 'none';
-            mainContent.style.display = 'block';
-        });
-    </script>
+    <section class="tutorial">
+      <div class="texto">
+        <h2>🧠 Crucigrama</h2>
+        <p>Completa el crucigrama con 5 palabras horizontales y 5 verticales. 
+        Los cuadros negros indican donde no se puede escribir. 
+        Cada materia tiene su propio conjunto de preguntas y respuestas educativas.</p>
+      </div>
+      <div class="media">
+        <img src="cru.png" alt="Crucigrama">
+      </div>
+    </section>
+
+    <section class="tutorial">
+      <div class="texto">
+        <h2>💡 Adivinanza</h2>
+        <p>Lee la pista y escribe la respuesta correcta. 
+        El sistema te dirá si acertaste o no. 
+        Ideal para desarrollar el pensamiento lógico y el vocabulario en distintas áreas de estudio.</p>
+      </div>
+      <div class="media">
+        <img src="adi.png" alt="Adivinanza">
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Aprende Jugando | Todos los derechos reservados</p>
+  </footer>
 </body>
 </html>

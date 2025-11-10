@@ -1,52 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contáctenos - Aprende Jugando</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contáctenos - Aprende Jugando</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Contáctenos</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="inicio.html">Inicio</a></li>
-                <li><a href="conocenos.html">Conócenos</a></li>
-                <li><a href="juegos.html">Juegos</a></li>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <img src="logo.png" alt="Logo Aprende Jugando" class="logo">
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="conocenos.html">Conócenos</a></li>
+        <li><a href="juegos.html">Juegos</a></li>
+        <li><a href="contactenos.html" class="activo">Contáctenos</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <main class="centrado">
-        <h2>Formulario de contacto</h2>
-        <form>
-            <label for="nombre">Nombre:</label><br>
-            <input type="text" id="nombre" required><br><br>
+  <main>
+    <section class="contacto">
+      <h1>📩 Contáctenos</h1>
+      <form>
+        <input type="text" placeholder="Nombre completo" required>
+        <input type="email" placeholder="Correo electrónico" required>
+        <textarea placeholder="Escribe tu mensaje..." required></textarea>
+        <button type="submit" class="btn-neon">Enviar</button>
+      </form>
+    </section>
+  </main>
 
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" required><br><br>
-
-            <label for="mensaje">Mensaje:</label><br>
-            <textarea id="mensaje" required></textarea><br><br>
-
-            <button type="submit">Enviar</button>
-        </form>
-
-        <!-- Ubicación -->
-        <h2>Ubicación</h2>
-        <div class="mapa">
-            <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3753.123456789!2d-63.123456!3d-17.123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x93f0a123456789ab%3A0xc123456789abcdef!2sTu%20Ubicación!5e0!3m2!1ses!2sbo!4v1600000000000!5m2!1ses!2sbo" 
-                width="600" 
-                height="450" 
-                style="border:0;" 
-                allowfullscreen="" 
-                loading="lazy">
-            </iframe>
-        </div>
-    </main>
+  <footer>
+    <p>© 2025 Aprende Jugando</p>
+  </footer>
 </body>
 </html>
-

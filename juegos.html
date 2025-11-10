@@ -1,38 +1,83 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juegos - Aprende Jugando</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juegos - Aprende Jugando</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Juegos</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="inicio.html">Inicio</a></li>
-                <li><a href="conocenos.html">Conócenos</a></li>
-                <li><a href="contactenos.html">Contáctenos</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <h2>Elige un modo de juego</h2>
-        <button onclick="startGame('normal')">Juego Normal</button>
-        <button onclick="startGame('timer')">Juego con Tiempo</button>
+  <header>
+    <img src="logo.png" alt="Logo Aprende Jugando" class="logo" />
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="conocenos.html">Conócenos</a></li>
+        <li><a href="juegos.html" class="activo">Juegos</a></li>
+        <li><a href="contactenos.html">Contáctenos</a></li>
+      </ul>
+    </nav>
+  </header>
 
-        <div id="game-area">
-            <h3>Puntos: <span id="score">0</span></h3>
-            <div id="timer-container" style="display:none;">
-                Tiempo restante: <span id="timer">30</span> segundos
-            </div>
-            <p id="game-message">¡Comienza a jugar!</p>
-            <button onclick="increaseScore()">Ganar Punto</button>
+  <main>
+    <section class="juegos">
+      <h1>🎲 Juegos Educativos</h1>
+
+      <!-- Selección de materia y modo -->
+      <div class="config-juego">
+        <div class="selector">
+          <label for="materia">Materia:</label>
+          <select id="materia">
+            <option value="lenguaje">Lenguaje</option>
+            <option value="ingles">Inglés</option>
+            <option value="sociales">C. Sociales</option>
+            <option value="naturales">C. Naturales</option>
+          </select>
         </div>
-    </main>
 
-    <script src="js/script.js"></script>
+        <div class="selector">
+          <label for="modo">Modo de juego:</label>
+          <select id="modo">
+            <option value="sin-tiempo">🕹️ Sin tiempo</option>
+            <option value="con-tiempo">⏱️ Con tiempo</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Mostrar puntaje -->
+      <div class="puntos">
+        <h2>Puntos acumulados: <span id="puntos">0</span> ⭐</h2>
+      </div>
+
+      <!-- Tarjetas de juegos -->
+      <div class="grid-juegos">
+        <div class="card">
+          <h2>Ahorcado</h2>
+          <p>Adivina las palabras antes de que sea tarde.</p>
+          <a href="#" class="btn-neon" onclick="jugar('ahorcados.html')">Jugar</a>
+        </div>
+        <div class="card">
+          <h2>Sopa de Letras</h2>
+          <p>Encuentra las palabras escondidas.</p>
+          <a href="#" class="btn-neon" onclick="jugar('sopadeletras.html')">Jugar</a>
+        </div>
+        <div class="card">
+          <h2>Crucigrama</h2>
+          <p>Desafía tu conocimiento con pistas.</p>
+          <a href="#" class="btn-neon" onclick="jugar('crucigrama.html')">Jugar</a>
+        </div>
+        <div class="card">
+          <h2>Adivinanza</h2>
+          <p>Responde acertijos de distintas materias.</p>
+          <a href="#" class="btn-neon" onclick="jugar('adivinanza.html')">Jugar</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Aprende Jugando</p>
+  </footer>
 </body>
 </html>

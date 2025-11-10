@@ -1,44 +1,257 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Crucigrama | Aprende Jugando</title>
-  <link rel="stylesheet" href="style.css">
-  <script defer src="crucigrama.js"></script>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Crucigrama - Aprende Jugando</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .container{padding:20px;max-width:1000px;margin:auto;text-align:center;}
+    .crosswrap{display:grid;grid-template-columns:repeat(11,40px);gap:4px;justify-content:center;margin:18px auto;}
+    .cell{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#0f0000;border-radius:4px;position:relative;}
+    .cell.black{background:#fbfafa;}
+    .cell input{width:100%;height:100%;border:none;background:transparent;text-align:center;font-weight:bold;font-size:18px;text-transform:uppercase;}
+    .controls{margin-top:12px;display:flex;gap:10px;justify-content:center;}
+    .clue{font-size:0.95rem;color:#ffea00;text-shadow:0 0 8px #ffea00;}
+    .correct{background:#bdf7bd;}
+    .wrong{background:#f7bdbd;}
+  </style>
 </head>
 <body>
   <header>
-    <h1>🧠 Crucigrama Educativo</h1>
+    <img src="logo.png" class="logo" alt="Logo Aprende Jugando">
     <nav>
-      <ul class="menu">
-        <li><a href="juegos.html">⬅ Volver a Juegos</a></li>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="conocenos.html">Conócenos</a></li>
+        <li><a href="juegos.html" class="activo">Juegos</a></li>
+        <li><a href="contactenos.html">Contáctenos</a></li>
       </ul>
     </nav>
   </header>
 
-  <main class="contenido-juego">
-    <h2>¡Completa el crucigrama según la materia!</h2>
+  <main class="container">
+    <h1>Crucigrama</h1>
+    <div class="info">Materia: <span id="info-materia"></span> | Modo: <span id="info-modo"></span></div>
 
-    <div class="selector-materia">
-      <label for="materia">Elige una materia:</label>
-      <select id="materia">
-        <option value="">-- Selecciona --</option>
-        <option value="lenguaje">Lenguaje</option>
-        <option value="ingles">Inglés</option>
-        <option value="naturales">C. Naturales</option>
-        <option value="sociales">C. Sociales</option>
-      </select>
-      <button id="iniciar">Generar Crucigrama</button>
+    <div id="grid" class="crosswrap"></div>
+
+    <div style="margin-top:10px;">
+      <div class="clue"><strong>Horizontales (5):</strong></div>
+      <ol id="cluesH"></ol>
+      <div class="clue"><strong>Verticales (5):</strong></div>
+      <ol id="cluesV"></ol>
     </div>
 
-    <div id="crucigrama" class="oculto">
-      <table id="tablaCrucigrama"></table>
-      <p id="mensaje"></p>
+    <div class="controls">
+      <button class="btn" id="check">Comprobar</button>
+      <button class="btn" id="reset">Reiniciar</button>
+      <button class="btn" id="volver" onclick="location.href='juegos.html'">Volver</button>
     </div>
+
+    <div id="msg" style="margin-top:12px;font-weight:bold;"></div>
   </main>
 
-  <footer>
-    <p>© 2025 Aprende Jugando</p>
-  </footer>
+  <footer><p>© 2025 Aprende Jugando</p></footer>
+
+  <script>
+    // ---------------- Sistema de puntos ----------------
+    function sumarPuntos(cantidad){
+      let pts = parseInt(localStorage.getItem('puntos') || '0',10);
+      pts += cantidad;
+      localStorage.setItem('puntos', pts);
+    }
+
+    // ---------------- Crucigramas por materia ----------------
+    const crucigramas = {
+      lenguaje: {
+        horizontales: [
+          {word:'VERBO', clue:'Palabra que indica acción.'},
+          {word:'SUSTANTIVO', clue:'Palabra que nombra personas, lugares o cosas.'},
+          {word:'ADJETIVO', clue:'Palabra que describe a un sustantivo.'},
+          {word:'ORACION', clue:'Conjunto de palabras con sentido completo.'},
+          {word:'LECTURA', clue:'Acción de leer un texto.'}
+        ],
+        verticales: [
+          {word:'SILABA', clue:'Parte en la que se divide una palabra al pronunciarla.'},
+          {word:'ESCRIBIR', clue:'Acción de formar palabras con letras.'},
+          {word:'LECTOR', clue:'Persona que lee.'},
+          {word:'LIBRO', clue:'Objeto que contiene texto o imágenes.'},
+          {word:'PALABRA', clue:'Unidad con significado que se usa al hablar o escribir.'}
+        ]
+      },
+      ingles: {
+        horizontales: [
+          {word:'APPLE', clue:'Manzana.'},
+          {word:'HOUSE', clue:'Casa.'},
+          {word:'FRIEND', clue:'Amigo.'},
+          {word:'TEACHER', clue:'Maestro.'},
+          {word:'SCHOOL', clue:'Escuela.'}
+        ],
+        verticales: [
+          {word:'DOG', clue:'Perro.'},
+          {word:'BOOK', clue:'Libro.'},
+          {word:'PENCIL', clue:'Lápiz.'},
+          {word:'COLOR', clue:'Color.'},
+          {word:'HELLO', clue:'Forma de saludar en inglés.'}
+        ]
+      },
+      sociales: {
+        horizontales: [
+          {word:'MAPA', clue:'Representación gráfica de un territorio.'},
+          {word:'PAIS', clue:'Territorio con gobierno propio.'},
+          {word:'CIUDAD', clue:'Zona urbana grande con mucha población.'},
+          {word:'GOBIERNO', clue:'Institución que dirige un país.'},
+          {word:'BANDERA', clue:'Símbolo patrio que representa una nación.'}
+        ],
+        verticales: [
+          {word:'HISTORIA', clue:'Ciencia que estudia los hechos del pasado.'},
+          {word:'PUEBLO', clue:'Conjunto de personas de una región.'},
+          {word:'REGION', clue:'Área con características similares.'},
+          {word:'CAPITAL', clue:'Ciudad principal de un país.'},
+          {word:'LEY', clue:'Norma establecida por el Estado.'}
+        ]
+      },
+      naturales: {
+        horizontales: [
+          {word:'AGUA', clue:'Líquido esencial para la vida.'},
+          {word:'PLANTA', clue:'Ser vivo que realiza fotosíntesis.'},
+          {word:'ANIMAL', clue:'Ser vivo que puede moverse por sí mismo.'},
+          {word:'ENERGIA', clue:'Capacidad para realizar un trabajo.'},
+          {word:'SOL', clue:'Fuente principal de luz y calor.'}
+        ],
+        verticales: [
+          {word:'AIRE', clue:'Gas que respiramos.'},
+          {word:'TIERRA', clue:'Planeta donde vivimos.'},
+          {word:'CLIMA', clue:'Condiciones atmosféricas de una zona.'},
+          {word:'ATOMO', clue:'Partícula más pequeña de la materia.'},
+          {word:'NATURALEZA', clue:'Conjunto de seres vivos y elementos del entorno.'}
+        ]
+      }
+    };
+
+    // ---------------- Construcción del crucigrama ----------------
+    const plantilla = Array.from({length:11}, ()=> Array(11).fill({black:true, letter:''}));
+
+    function generarCrucigrama(materia){
+      const data = crucigramas[materia] || crucigramas.lenguaje;
+
+      // reinicia la plantilla
+      for(let r=0;r<11;r++){
+        for(let c=0;c<11;c++) plantilla[r][c] = {black:true, letter:''};
+      }
+
+      const palabrasH = data.horizontales.slice(0,5);
+      const palabrasV = data.verticales.slice(0,5);
+
+      // colocar horizontales (fila 1,3,5,7,9)
+      let fila = 1;
+      for(const p of palabrasH){
+        for(let i=0;i<p.word.length && i<11;i++){
+          plantilla[fila][i+1] = {black:false, letter:p.word[i]};
+        }
+        fila += 2;
+      }
+
+      // colocar verticales (columna 1,3,5,7,9)
+      let col = 1;
+      for(const p of palabrasV){
+        for(let i=0;i<p.word.length && i<11;i++){
+          plantilla[i+1][col] = {black:false, letter:p.word[i]};
+        }
+        col += 2;
+      }
+
+      renderCrucigrama(palabrasH, palabrasV);
+    }
+
+    function renderCrucigrama(horiz, vert){
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      for(let r=0;r<11;r++){
+        for(let c=0;c<11;c++){
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          if(plantilla[r][c].black){
+            cell.classList.add('black');
+          } else {
+            const inp = document.createElement('input');
+            inp.maxLength = 1;
+            inp.dataset.r = r;
+            inp.dataset.c = c;
+            inp.oninput = ()=> inp.value = inp.value.toUpperCase().replace(/[^A-ZÑ]/,'');
+            cell.appendChild(inp);
+          }
+          grid.appendChild(cell);
+        }
+      }
+
+      // Claves
+      const ch = document.getElementById('cluesH');
+      const cv = document.getElementById('cluesV');
+      ch.innerHTML = '';
+      cv.innerHTML = '';
+      horiz.forEach(p => {
+        const li = document.createElement('li');
+        li.textContent = p.clue;
+        ch.appendChild(li);
+      });
+      vert.forEach(p => {
+        const li = document.createElement('li');
+        li.textContent = p.clue;
+        cv.appendChild(li);
+      });
+    }
+
+    // ---------------- Comprobar ----------------
+    function checkAnswers(){
+      const cells = document.querySelectorAll('#grid .cell');
+      let correct = 0, total = 0, index = 0;
+      for(let r=0;r<11;r++){
+        for(let c=0;c<11;c++){
+          const pl = plantilla[r][c];
+          const cell = cells[index++];
+          if(pl.black) continue;
+          total++;
+          const inp = cell.querySelector('input');
+          const val = (inp && inp.value) ? inp.value.toUpperCase() : '';
+          if(val === pl.letter.toUpperCase()){
+            cell.classList.remove('wrong'); cell.classList.add('correct');
+            correct++;
+          } else {
+            cell.classList.remove('correct'); cell.classList.add('wrong');
+          }
+        }
+      }
+      const msg = document.getElementById('msg');
+      msg.textContent = `Letras correctas: ${correct}/${total}`;
+      if(correct === total){
+        msg.textContent = '¡Excelente! Completaste el crucigrama. +50 pts';
+        sumarPuntos(50);
+      } else {
+        const pts = Math.floor((correct/total)*30);
+        if(pts>0){
+          sumarPuntos(pts);
+          msg.textContent += ` (+${pts} pts)`;
+        }
+      }
+    }
+
+    function resetGrid(){
+      document.querySelectorAll('#grid input').forEach(i=> i.value='');
+      document.querySelectorAll('.cell').forEach(c=> c.classList.remove('correct','wrong'));
+      document.getElementById('msg').textContent='';
+    }
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const materia = localStorage.getItem('materia') || 'lenguaje';
+      const modo = localStorage.getItem('modo') || 'sin-tiempo';
+      document.getElementById('info-materia').textContent = materia;
+      document.getElementById('info-modo').textContent = modo === 'con-tiempo' ? 'Con tiempo' : 'Sin tiempo';
+      generarCrucigrama(materia);
+      document.getElementById('check').addEventListener('click', checkAnswers);
+      document.getElementById('reset').addEventListener('click', resetGrid);
+    });
+  </script>
 </body>
 </html>

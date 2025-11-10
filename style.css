@@ -1,155 +1,173 @@
-/* ===============================
-   ====== ESTILOS GENERALES ======
-   =============================== */
+/* 🌌 Estilos globales con efecto neón morado y amarillo */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f8ff;
-    margin: 0;
-    padding: 0;
-    color: #333;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at center, #25003d, #000);
+  color: #fff;
+  text-align: center;
 }
 
+/* ===== HEADER ===== */
 header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 0;
-    text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 40px;
+  background: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 15px #b26ffb;
+  position: sticky;
+  top: 0;
+}
+
+.logo {
+  height: 60px;
 }
 
 nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  display: flex;
+  gap: 30px;
 }
 
-nav ul li {
-    margin: 0 15px;
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: 0.3s;
 }
 
-nav ul li a {
-    color: white;
-    text-decoration: none;
+nav a:hover,
+nav a.activo {
+  color: #ffea00;
+  text-shadow: 0 0 10px #ffea00;
 }
 
+/* ===== SECCIONES ===== */
 main {
-    padding: 20px;
-    text-align: center;
+  padding: 80px 20px;
 }
 
-/* ===============================
-   ====== BOTONES ======
-   =============================== */
-button {
-    padding: 10px 20px;
-    margin: 10px;
-    cursor: pointer;
-    border: none;
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 5px;
-    font-size: 16px;
+h1 span {
+  color: #b26ffb;
+  text-shadow: 0 0 10px #b26ffb;
 }
 
-button:hover {
-    background-color: #45a049;
+.bienvenida p {
+  font-size: 1.2em;
+  color: #ffea00;
 }
 
-/* ===============================
-   ====== ÁREA DE JUEGOS ======
-   =============================== */
-#game-area {
-    margin-top: 20px;
+/* ===== BOTÓN NEÓN ===== */
+.btn-neon {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 30px;
+  color: #fff;
+  border: 2px solid #b26ffb;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 10px;
+  transition: 0.3s;
+  box-shadow: 0 0 10px #b26ffb;
 }
 
-/* ===============================
-   ====== SECCIONES ======
-   =============================== */
-.seccion {
-    margin: 30px 0;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #e6f2ff;
+.btn-neon:hover {
+  background-color: #b26ffb;
+  color: #000;
+  box-shadow: 0 0 20px #ffea00, 0 0 40px #b26ffb;
 }
 
-/* Contenedor flexible para texto, imagen o video */
-.contenido {
-    display: flex; /* horizontal por defecto */
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 20px; /* Espacio entre texto y media */
+/* ===== JUEGOS ===== */
+.grid-juegos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
 }
 
-/* Para cambiar orientación a vertical */
-.contenido.vertical {
-    flex-direction: column;
-    align-items: center;
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px #b26ffb;
 }
 
-/* ===============================
-   ====== TEXTO ======
-   =============================== */
-.titulo {
-    font-size: 26px; /* Tamaño del título */
-    text-align: center;
-    margin-bottom: 15px;
+.card h2 {
+  color: #ffea00;
+  text-shadow: 0 0 8px #ffea00;
 }
 
-.texto {
-    font-size: 18px; /* Tamaño del texto */
-    line-height: 1.5;
-    flex: 1; /* Ocupa espacio flexible */
-}
-
-/* ===============================
-   ====== IMÁGENES Y VIDEOS ======
-   =============================== */
-.media {
-    max-width: 400px; /* Tamaño máximo por defecto */
-    width: 100%; /* Se adapta al contenedor */
-    border-radius: 10px;
-}
-
-.video {
-    max-width: 500px;
-}
-
-/* ===============================
-   ====== CENTRADO Y FORMULARIO ======
-   =============================== */
-.centrado {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
+/* ===== CONTACTO ===== */
 form {
-    max-width: 500px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin: auto;
 }
 
 input, textarea {
-    width: 90%;
-    padding: 8px;
-    margin: 5px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background-color: #1a0033;
+  color: #fff;
+  box-shadow: inset 0 0 5px #b26ffb;
 }
 
 textarea {
-    resize: vertical;
+  resize: none;
+  height: 120px;
 }
 
-/* ===============================
-   ====== MAPA ======
-   =============================== */
-.mapa iframe {
-    max-width: 100%;
-    border-radius: 10px;
+/* ===== FOOTER ===== */
+footer {
+  padding: 15px;
+  background: #000;
+  color: #b26ffb;
+  font-size: 0.9em;
+  text-shadow: 0 0 10px #b26ffb;
+}
+/* ===== CONFIGURACIÓN DE JUEGO ===== */
+.config-juego {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.selector {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #b26ffb;
+}
+
+.selector label {
+  display: block;
+  color: #ffea00;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.selector select {
+  background: #1a0033;
+  color: #fff;
+  border: 2px solid #b26ffb;
+  border-radius: 10px;
+  padding: 8px;
+  font-size: 1em;
+  box-shadow: 0 0 10px #b26ffb;
+}
+
+/* ===== PUNTOS ===== */
+.puntos {
+  margin-top: 20px;
+  color: #ffea00;
+  text-shadow: 0 0 10px #ffea00;
 }

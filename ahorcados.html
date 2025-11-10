@@ -1,50 +1,252 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Ahorcado | Aprende Jugando</title>
-  <link rel="stylesheet" href="style.css">
-  <script defer src="ahorcado.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ahorcados - Aprende Jugando</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { text-align:center; }
+    main.container { 
+      display:flex; 
+      justify-content:center; 
+      align-items:flex-start; 
+      flex-wrap:wrap; 
+      gap:40px; 
+      padding:30px; 
+    }
+
+    /* === MUÑECO A LA IZQUIERDA === */
+    .muñeco {
+      width: 200px;
+      height: 260px;
+      position: relative;
+      margin-top: 20px;
+      flex-shrink: 0;
+    }
+
+    /* Estructura del ahorcado */
+    .poste { position:absolute; background:#fff; }
+    .poste.base { bottom:0; left:10px; width:200px; height:6px; }
+    .poste.vertical { bottom:0; left:50px; width:6px; height:240px; }
+    .poste.horizontal { top:0; left:50px; width:120px; height:6px; }
+    .poste.cuerda { top:6px; left:166px; width:4px; height:40px; }
+
+    .part { position:absolute; opacity:0; transition:opacity 0.3s; }
+    .part.show { opacity:1; }
+    .part.head { top:45px; left:135px; width:50px; height:50px; border-radius:50%; border:5px solid #fff; }
+    .part.body { top:95px; left:158px; width:6px; height:70px; background:#fff; }
+    .part.arm1 { top:105px; left:110px; width:50px; height:6px; transform:rotate(-35deg); background:#fff; }
+    .part.arm2 { top:105px; left:160px; width:50px; height:6px; transform:rotate(35deg); background:#fff; }
+    .part.leg1 { top:160px; left:133px; width:6px; height:60px; transform:rotate(25deg); background:#fff; }
+    .part.leg2 { top:160px; left:165px; width:6px; height:60px; transform:rotate(-25deg); background:#fff; }
+
+    /* === ZONA DE JUEGO DERECHA === */
+    .zona-juego {
+      flex: 1;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    .word { 
+      font-size:2rem; 
+      letter-spacing:10px; 
+      margin:20px 0; 
+      color:#fff;
+      text-shadow:0 0 10px #b26ffb;
+    }
+
+    .info { margin: 12px 0; color: #ffea00; text-shadow:0 0 8px #ffea00; }
+
+    .letras { margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+    .letraBtn { background:transparent;border:2px solid #b26ffb;padding:8px 10px;border-radius:6px;color:#fff;cursor:pointer;transition:0.3s; }
+    .letraBtn:hover { background:#b26ffb;color:#000; }
+
+    .result { margin-top:12px; font-weight:bold; color:#ffea00; text-shadow:0 0 8px #ffea00; }
+
+    .controls { margin-top:18px; display:flex;gap:10px; justify-content:center; flex-wrap:wrap; }
+    .btn { padding:10px 16px;border-radius:8px;border:2px solid #b26ffb;background:transparent;color:#fff;cursor:pointer;transition:0.3s; }
+    .btn:hover { background:#b26ffb;color:#000; }
+
+    .timer { font-size:1.1rem; color:#ffea00; }
+  </style>
 </head>
 <body>
   <header>
-    <h1>🧩 Juego del Ahorcado</h1>
+    <img src="logo.png" alt="Logo" class="logo">
     <nav>
-      <ul class="menu">
-        <li><a href="juegos.html">⬅ Volver a Juegos</a></li>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="conocenos.html">Conócenos</a></li>
+        <li><a href="juegos.html" class="activo">Juegos</a></li>
+        <li><a href="contactenos.html">Contáctenos</a></li>
       </ul>
     </nav>
   </header>
 
-  <main class="contenido-juego">
-    <h2>¡Adivina la palabra según la materia!</h2>
-
-    <div class="selector-materia">
-      <label for="materia">Elige una materia:</label>
-      <select id="materia">
-        <option value="">-- Selecciona --</option>
-        <option value="lenguaje">Lenguaje</option>
-        <option value="ingles">Inglés</option>
-        <option value="naturales">C. Naturales</option>
-        <option value="sociales">C. Sociales</option>
-      </select>
-      <button id="iniciar">Iniciar Juego</button>
+  <main class="container">
+    <!-- IZQUIERDA: MUÑECO -->
+    <div class="muñeco" aria-hidden="true">
+      <div class="poste base"></div>
+      <div class="poste vertical"></div>
+      <div class="poste horizontal"></div>
+      <div class="poste cuerda"></div>
+      <div class="part head" id="p0"></div>
+      <div class="part body" id="p1"></div>
+      <div class="part arm1" id="p2"></div>
+      <div class="part arm2" id="p3"></div>
+      <div class="part leg1" id="p4"></div>
+      <div class="part leg2" id="p5"></div>
     </div>
 
-    <div id="ahorcado" class="oculto">
-      <canvas id="canvas" width="200" height="200"></canvas>
+    <!-- DERECHA: JUEGO -->
+    <div class="zona-juego">
+      <h1>Ahorcado</h1>
+      <div class="info">Materia: <span id="info-materia"></span> | Modo: <span id="info-modo"></span></div>
+      <div class="word" id="display-word"></div>
 
-      <div id="palabra"></div>
-      <input type="text" id="letra" maxlength="1" placeholder="Letra">
-      <button id="probar">Probar</button>
+      <div class="letras" id="letras-alfabeto"></div>
 
-      <p id="mensaje"></p>
+      <div class="result" id="msg"></div>
+
+      <div class="controls">
+        <button class="btn" id="reiniciar">Reiniciar</button>
+        <button class="btn" id="volver" onclick="location.href='juegos.html'">Volver</button>
+        <div class="timer" id="timer" style="display:none">Tiempo: <span id="t-seg">0</span>s</div>
+      </div>
     </div>
   </main>
 
-  <footer>
-    <p>© 2025 Aprende Jugando</p>
-  </footer>
+  <footer><p>© 2025 Aprende Jugando</p></footer>
+
+  <script>
+    // ---------- SISTEMA DE PUNTOS ----------
+    function sumarPuntos(cantidad){
+      let pts = parseInt(localStorage.getItem('puntos') || '0',10);
+      pts += cantidad;
+      localStorage.setItem('puntos', pts);
+    }
+
+    // ---------- PALABRAS POR MATERIA ----------
+    const palabrasPorMateria = {
+      lenguaje: ['SUSTANTIVO','VERBO','ADJETIVO','ORTOGRAFIA','FRASE','SILABA','NARRAR','SINTAXIS'],
+      ingles: ['APPLE','SCHOOL','BOOK','GREEN','HOUSE','FRIEND','ANIMAL','NUMBER'],
+      sociales: ['HISTORIA','PROVINCIA','GOBIERNO','TRADICION','MAPA','LEYENDA','CIUDAD','PUEBLO'],
+      naturales: ['PLANETA','ECOSISTEMA','AGUA','PLANTA','ANIMAL','ENERGIA','ATOMO','CLIMA']
+    };
+
+    let palabra = '';
+    let displayArr = [];
+    let errores = 0;
+    const maxErrores = 6;
+    let usedLetters = new Set();
+    let timerInterval = null;
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const materia = localStorage.getItem('materia') || 'lenguaje';
+      const modo = localStorage.getItem('modo') || 'sin-tiempo';
+      document.getElementById('info-materia').textContent = materia;
+      document.getElementById('info-modo').textContent = modo === 'con-tiempo' ? 'Con tiempo' : 'Sin tiempo';
+
+      if(modo === 'con-tiempo'){ 
+        document.getElementById('timer').style.display = 'inline-block';
+        startTimer(60); // 60 segundos por ejemplo
+      }
+      crearAlfabeto();
+      nuevaPalabra(materia);
+      setupKeyListener();
+      document.getElementById('reiniciar').addEventListener('click', ()=> nuevaPalabra(materia));
+    });
+
+    function nuevaPalabra(materia){
+      clearInterval(timerInterval);
+      usedLetters.clear();
+      errores = 0;
+      for (let i=0;i<=5;i++) document.getElementById('p'+i).classList.remove('show');
+      const lista = palabrasPorMateria[materia] || palabrasPorMateria.lenguaje;
+      palabra = lista[Math.floor(Math.random()*lista.length)].toUpperCase();
+      displayArr = palabra.split('').map(ch => (ch === ' ' ? ' ' : '_'));
+      actualizarDisplay();
+      document.getElementById('msg').textContent = '';
+      const modo = localStorage.getItem('modo') || 'sin-tiempo';
+      if(modo === 'con-tiempo'){ startTimer(60); }
+      document.querySelectorAll('.letraBtn').forEach(b=>{b.disabled=false;});
+    }
+
+    function actualizarDisplay(){
+      document.getElementById('display-word').textContent = displayArr.join(' ');
+    }
+
+    function crearAlfabeto(){
+      const cont = document.getElementById('letras-alfabeto');
+      cont.innerHTML = '';
+      const AB = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ';
+      for (let ch of AB){
+        const b = document.createElement('button');
+        b.className='letraBtn';
+        b.textContent = ch;
+        b.onclick = ()=> elegirLetra(ch);
+        cont.appendChild(b);
+      }
+    }
+
+    function elegirLetra(ch){
+      if(usedLetters.has(ch)) return;
+      usedLetters.add(ch);
+      const boton = Array.from(document.querySelectorAll('.letraBtn')).find(x => x.textContent === ch);
+      if(boton) boton.disabled = true;
+
+      if(palabra.includes(ch)){
+        for(let i=0;i<palabra.length;i++){
+          if(palabra[i] === ch) displayArr[i]=ch;
+        }
+        actualizarDisplay();
+        if(!displayArr.includes('_')){
+          document.getElementById('msg').textContent = '¡Ganaste! +20 puntos';
+          sumarPuntos(20);
+        }
+      } else {
+        mostrarParte();
+        if(errores >= maxErrores){
+          document.getElementById('msg').textContent = 'Perdiste. La palabra era: ' + palabra;
+          displayArr = palabra.split('');
+          actualizarDisplay();
+        }
+      }
+    }
+
+    function mostrarParte(){
+      if(errores < maxErrores){
+        const parte = document.getElementById('p'+errores);
+        if(parte) parte.classList.add('show');
+      }
+      errores++;
+    }
+
+    function setupKeyListener(){
+      document.addEventListener('keydown', (e)=>{
+        const key = e.key.toUpperCase();
+        if(/^[A-ZÑ]$/.test(key)) {
+          elegirLetra(key);
+        }
+      });
+    }
+
+    function startTimer(segundos){
+      let s = parseInt(segundos,10);
+      document.getElementById('t-seg').textContent = s;
+      clearInterval(timerInterval);
+      timerInterval = setInterval(()=>{
+        s--;
+        document.getElementById('t-seg').textContent = s;
+        if(s<=0){
+          clearInterval(timerInterval);
+          document.getElementById('msg').textContent = '⏰ Tiempo agotado. La palabra era: ' + palabra;
+          displayArr = palabra.split('');
+          actualizarDisplay();
+        }
+      },1000);
+    }
+  </script>
 </body>
 </html>
-
